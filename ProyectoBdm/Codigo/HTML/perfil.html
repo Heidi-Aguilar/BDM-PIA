@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Usuario</title>
+  <style>
+
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #e6f0f2; /* fondo liso */
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b4a20; /* verde oscuro del login */
+  padding: 15px 20px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+.link-seccion {
+  text-decoration: none;
+  color: inherit; /* mantiene el color original */
+}
+
+.link-seccion:hover h2 {
+  text-decoration: underline; /* opcional: resaltar al pasar el mouse */
+  cursor: pointer;
+}
+
+
+.busqueda {
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 180px;
+  transition: 0.3s;
+}
+
+.busqueda:focus {
+  width: 220px; /* se hace un poco más grande al enfocar */
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+.logo-img {
+  height: 40px; /* ajusta el tamaño que quieras */
+  width: auto;
+}
+.logo-main {
+  display: block;
+  margin: 0 auto 20px auto;
+  max-width: 200px; /* tamaño proporcional */
+  height: auto;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* NAV CENTER LINKS */
+.nav-center {
+  display: flex;
+  gap: 20px;
+}
+
+/* CONTAINERS */
+.container {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.container h2 {
+  margin-bottom: 12px;
+  color: #0b4a20; /* verde oscuro */
+  font-size: 22px;
+}
+
+.container p {
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+/* COMENTARIOS */
+.comentario-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comentario-box textarea {
+  width: 100%;
+  min-height: 60px;
+  resize: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.comentario-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Botón subir imagen */
+.icono-img {
+  cursor: pointer;
+  font-size: 20px;
+  color: #0f4a00; /* verde del login */
+}
+
+.icono-img input[type="file"] {
+  display: none;
+}
+
+/* Botón publicar */
+.btn-publicar {
+  background-color: #0f4a00; /* verde principal */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-publicar:hover {
+  background-color: #0c3700; /* verde más oscuro al hover */
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .nav-center {
+    margin-top: 10px;
+  }
+}
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffffff, #dbeafe); /* blanco → azul claro */
+      color: #1e293b; /* texto oscuro para mejor contraste */
+    }
+
+    header {
+      background: rgba(16, 50, 0, 0.979);
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 2px solid rgba(16, 50, 0, 0.979);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.998);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(91, 91, 91, 0.3);
+    }
+
+    h2 {
+      color: rgba(16, 50, 0, 0.979);
+      border-bottom: 1px solid rgba(16, 50, 0, 0.979);
+      padding-bottom: 5px;
+    }
+
+    .profile-section, .posts-section {
+      margin-bottom: 30px;
+    }
+
+    .profile-pic {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .profile-pic img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid #ffffff;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(41, 41, 41, 0.4);
+      display: block;
+      margin: 0 auto 10px;
+    }
+    
+    /* Ocultar el input file */
+    #cargarFoto {
+      display: none;
+    }
+    
+    /* Botón estilizado */
+    .btn-foto {
+      display: inline-block;
+      background: rgba(16, 50, 0, 0.979);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    
+    .btn-foto:hover {
+      background: rgba(16, 50, 0, 0.979);
+    }
+    
+    
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(240, 240, 240, 0.6); /* verde semitransparente */
+      color: #929292;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); /* sombra negra */
+    }
+
+    input:focus, textarea:focus {
+      outline: 2px solid rgba(181, 181, 181, 0.979);
+      background: rgba(255, 255, 255, 0.75); /* un poco más sólido al enfocar */
+    }
+
+    button {
+      background: rgba(0, 128, 0, 0.8); /* verde más fuerte */
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+    }
+
+    button:hover {
+      background: rgba(0, 150, 0, 0.95);
+    }
+
+    .post {
+      background: rgba(251, 251, 251, 0.6); /* verde semitransparente */
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); /* sombra negra */
+    }
+
+    .post h3 {
+      margin: 0 0 10px;
+      color: #ffffff;
+    }
+
+    .interactions {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #aaa;
+    }
+
+    .interactions span {
+      margin-right: 15px;
+    }
+
+    .comment-section {
+      margin-top: 15px;
+    }
+
+    .comment {
+      background: #bebebe;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+  <div class="nav-left">
+     <img src="../RECURSOS/logo.png" alt="Logo de la empresa" class="logo-img" style="height:40px;">
+    </div>
+    <div class="nav-center">
+      <a href="principal.html">Inicio</a>
+      <a href="principalforos.html">Foro</a>
+     <input type="text" class="busqueda" placeholder="Buscar...">
+    </div>
+    <div class="nav-right">
+      <a href="pefil.html">Perfil</a>
+    </div>
+  </nav>
+
+
+
+  <header>Perfil de Usuario</header>
+
+  <div class="container">
+    <!-- Sección de perfil -->
+    <div class="profile-section">
+      <h2>Datos del Perfil</h2>
+      <div class="profile-pic">
+        <!-- Imagen por defecto -->
+        <img id="fotoPerfil" src="../RECURSOS/iconoperfil.png" alt="Foto de perfil">
+        
+        <!-- Botón estilizado -->
+        <label for="cargarFoto" class="btn-foto">Cambiar foto de perfil</label>
+        <!-- Input para cargar una nueva foto -->
+        <input type="file" id="cargarFoto" accept="image/*" onchange="mostrarFoto(event)">
+      </div>
+      
+      <label for="username">Nombre de usuario:</label>
+      <input type="text" id="username" value="Usuario123">
+
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" value="usuario@ejemplo.com">
+
+      <label for="bio">Biografía:</label>
+      <textarea id="bio">Hola, soy un apasionado de la tecnología.</textarea>
+
+      <label for="password">Cambiar contraseña:</label>
+      <input type="password" id="password" placeholder="Nueva contraseña">
+
+      <button onclick="guardarPerfil()">Guardar cambios</button>
+    </div>
+
+    <!-- Sección de publicaciones -->
+    <div class="posts-section">
+      <h2>Mis Publicaciones</h2>
+
+      <div class="post">
+        <h3>Mi primer post</h3>
+        <p>Este es el contenido de mi primera publicación en la plataforma.</p>
+        <div class="interactions">
+          <span>👍 Likes: <span id="likes1">10</span></span>
+          <span>👁️ Vistas: 200</span>
+        </div>
+        <button onclick="darLike('likes1')">Dar Like</button>
+        <div class="comment-section">
+          <strong>Comentarios:</strong>
+          <div class="comment">Muy buen post 👌</div>
+          <input type="text" id="comment1" placeholder="Escribe un comentario...">
+          <button onclick="agregarComentario('comment1', this)">Comentar</button>
+        </div>
+      </div>
+
+      <div class="post">
+        <h3>Proyecto en curso</h3>
+        <p>Estoy trabajando en un nuevo proyecto de programación web.</p>
+        <div class="interactions">
+          <span>👍 Likes: <span id="likes2">5</span></span>
+          <span>👁️ Vistas: 120</span>
+        </div>
+        <button onclick="darLike('likes2')">Dar Like</button>
+        <div class="comment-section">
+          <strong>Comentarios:</strong>
+          <div class="comment">¡Sigue así!</div>
+          <input type="text" id="comment2" placeholder="Escribe un comentario...">
+          <button onclick="agregarComentario('comment2', this)">Comentar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function guardarPerfil() {
+      alert("Cambios de perfil guardados (simulación)");
+    }
+
+    function darLike(id) {
+      let likes = document.getElementById(id);
+      likes.textContent = parseInt(likes.textContent) + 1;
+    }
+
+    function agregarComentario(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const commentText = input.value.trim();
+      if(commentText) {
+        const newComment = document.createElement("div");
+        newComment.classList.add("comment");
+        newComment.textContent = commentText;
+        btn.parentNode.insertBefore(newComment, input);
+        input.value = "";
+      }
+    }
+
+    function mostrarFoto(event) {
+      const archivo = event.target.files[0];
+      if (archivo) {
+        const lector = new FileReader();
+        lector.onload = function(e) {
+          document.getElementById("fotoPerfil").src = e.target.result;
+        };
+        lector.readAsDataURL(archivo);
+      }
+    }
+    
+  </script>
+</body>
+</html>
