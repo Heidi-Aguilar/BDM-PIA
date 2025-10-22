@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | QuinielaZo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ffd700;
+            --secondary-color: #7a0000;
+            --background-color: #1a1a1a;
+            --sidebar-color: #222;
+            --card-color: #2d2d2d;
+            --text-color: #f0f0f0;
+            --text-light: #aaa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            width: 80px;
+            margin-bottom: 10px;
+        }
+
+        .logo h2 {
+            color: var(--primary-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+        }
+
+        .admin-nav li a {
+            display: block;
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .admin-nav li a:hover,
+        .admin-nav li a.active {
+            background-color: var(--card-color);
+            color: var(--primary-color);
+        }
+
+        .admin-nav li a i {
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        .admin-header {
+            margin-bottom: 40px;
+        }
+
+        .admin-header h1 {
+            color: var(--primary-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Sections */
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .admin-section h2 {
+            margin-bottom: 20px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .admin-card {
+            background-color: var(--card-color);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            color: var(--primary-color);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        /* Tablas de datos */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        .data-table th {
+            background-color: #333;
+            color: var(--primary-color);
+        }
+
+        /* Botones y formularios */
+        .edit-btn, .submit-btn, .add-button, .delete-btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: #fff;
+        }
+
+        .edit-btn {
+            background-color: #555;
+        }
+
+        .edit-btn:hover {
+            background-color: #777;
+        }
+
+        .submit-btn {
+            background-color: var(--secondary-color);
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background-color: #a00000;
+        }
+
+        .add-button {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .add-button:hover {
+            background-color: #ffde40;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            margin-left: 10px;
+        }
+        
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .complete-btn {
+            background-color: #4CAF50;
+            margin-left: 10px;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .complete-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilos específicos de secciones */
+        .elim-match,
+        .quiniela-match {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .quiniela-match-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .quiniela-match-input-group input[type="text"] {
+            flex-grow: 1;
+            padding: 8px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: var(--text-color);
+        }
+
+        .elim-match input,
+        .quiniela-match input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        /* Contenedores de insignias */
+        #insignias-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Insignias */
+        .insignia-item {
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            gap: 15px;
+        }
+        
+        .insignia-item .insignia-content {
+            flex-grow: 1;
+        }
+
+        .insignia-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .insignia-info h4 {
+            color: var(--primary-color);
+        }
+
+        .insignia-info p {
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+
+        .remove-insignia-btn {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .remove-insignia-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: var(--text-color);
+        }
+
+        /* Estilos para las tareas */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .task-item .task-info {
+            flex-grow: 1;
+        }
+
+        .task-item .task-info h4 {
+            color: var(--primary-color);
+        }
+
+        .task-item .task-info p {
+            font-size: 0.9em;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        
+        .match-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .match-completed-status {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="../RECURSOS/logo.png" alt="logo">
+                <h2>Admin</h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#" data-section="gestion-publicaciones" class="active"><i class="fas fa-futbol"></i> Gestion de publicaciones</a></li>
+                    <li><a href="#" data-section="gestion-categorias"><i class="fas fa-list-check"></i> Gestión de categorías</a></li>
+                    <li><a href="#" data-section="gestion-usuarios"><i class="fas fa-tasks"></i> Gestión de usuarios</a></li>
+                    <li><a href="#" data-section="insignias"><i class="fas fa-medal"></i> Insignias</a></li>
+                    <li><a href="#" data-section="resultados"><i class="fas fa-clipboard-check"></i> Resultados de gestion-categorias</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content-wrapper">
+            <header class="admin-header">
+                <h1>Panel de Administración</h1>
+            </header>
+
+            <section id="gestion-publicaciones-section" class="admin-section active">
+                <h2>Gestión de Publicaciones de Foros</h2>
+                <div class="admin-card">
+                    <h4 class="card-title">Publicaciones de Usuarios</h4>
+                    <table class="data-table" id="tabla-publicaciones">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Contenido</th>
+                                <th>Categoría</th>
+                                <th>Fecha</th>
+                                <th>Foro</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-publicaciones">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="gestion-categorias-section" class="admin-section">
+                <h2>Gestión de Categorías de Foros</h2>
+                <div class="admin-card">
+                    <h4 class="card-title">Selecciona foro</h4>
+                    <select id="foro-categorias-select" style="margin-bottom:15px;padding:6px 12px;border-radius:8px;">
+                        <option value="foro">Foro General</option>
+                        <option value="mundial">Mundial</option>
+                        <option value="paises_sede">Países Sede</option>
+                        <option value="paises_participantes">Países Participantes</option>
+                        <option value="maximos_goleadores">Máximos Goleadores</option>
+                        <option value="partidos_historicos">Partidos Históricos</option>
+                        <option value="partidos_polemicos">Partidos Polémicos</option>
+                        <option value="entrevistas">Entrevistas</option>
+                        <option value="jugadores">Jugadores</option>
+                    </select>
+                    <h4 class="card-title">Agregar nueva categoría</h4>
+                    <form id="add-categoria-form">
+                        <div class="form-group">
+                            <label for="categoria-nombre">Nombre de la categoría</label>
+                            <input type="text" id="categoria-nombre" required>
+                        </div>
+                        <button type="submit" class="add-button"><i class="fas fa-plus"></i> Agregar Categoría</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h4 class="card-title">Categorías actuales</h4>
+                    <ul id="categorias-list" style="list-style:none;padding:0;margin:0;"></ul>
+                </div>
+            </section>
+            
+            <section id="gestion-usuarios-section" class="admin-section">
+                <h2>Gestión de Usuarios</h2>
+                <div class="admin-card">
+                    <h4 class="card-title">Agregar / Editar Usuario</h4>
+                    <form id="add-user-form">
+                        <input type="hidden" id="user-id">
+                        <div class="form-group">
+                            <label for="user-name">Nombre de usuario</label>
+                            <input type="text" id="user-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-email">Email</label>
+                            <input type="email" id="user-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-role">Rol</label>
+                            <select id="user-role">
+                                <option value="user">Usuario</option>
+                                <option value="moderator">Moderador</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="add-button"><i class="fas fa-plus"></i> Guardar Usuario</button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h4 class="card-title">Usuarios registrados</h4>
+                    <div style="margin-bottom:12px;">
+                        <input id="user-search" type="search" placeholder="Buscar por nombre o email..." style="width:100%;padding:8px;border-radius:8px;border:1px solid #555;background:#222;color:#fff;" />
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Fecha Nac.</th>
+                                <th>País Nac.</th>
+                                <th>Nacionalidad</th>
+                                <th>Género</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="insignias-section" class="admin-section">
+                <h2>Gestión de Insignias</h2>
+                <div class="admin-card">
+                    <h4 class="card-title">Agregar nueva insignia</h4>
+                    <form id="add-insignia-form">
+                        <div class="form-group">
+                            <label for="insignia-name">Nombre de la insignia</label>
+                            <input type="text" id="insignia-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="insignia-desc">Descripción</label>
+                            <textarea id="insignia-desc" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="insignia-img">URL de la imagen</label>
+                            <input type="text" id="insignia-img" required>
+                        </div>
+                        <button type="submit" class="add-button"><i class="fas fa-plus"></i> Agregar Insignia</button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h4 class="card-title">Insignias actuales</h4>
+                    <div id="insignias-list-container">
+                        </div>
+                </div>
+            </section>
+
+            <section id="resultados-section" class="admin-section">
+                <h2>Resultados de gestion-categorias</h2>
+                <div class="admin-card">
+                    <h4 class="card-title">Resultados Jornada 1</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Jugador</th>
+                                <th>Puntos</th>
+                                <th>Pronóstico</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Usuario 1</td>
+                                <td>10</td>
+                                <td>México 2 - 1 Japón</td>
+                                <td>México 2 - 1 Japón</td>
+                            </tr>
+                            <tr>
+                                <td>Usuario 2</td>
+                                <td>5</td>
+                                <td>México 1 - 1 Japón</td>
+                                <td>México 2 - 1 Japón</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Normalize users immediately so legacy entries have expected properties
+        (function immediateNormalizeUsers(){
+            try {
+                const k = 'app_users_v1';
+                const raw = localStorage.getItem(k);
+                if (!raw) return;
+                const users = JSON.parse(raw || '[]');
+                const defaults = { firstNames: '', apellidoP: '', apellidoM: '', password: '', role: 'user', fechaNacimiento: '', paisNacimiento: '', nacionalidad: '', genero: '', photo: null };
+                let changed = false;
+                for (let i = 0; i < users.length; i++) {
+                    const u = users[i] || {};
+                    Object.keys(defaults).forEach(key => { if (!(key in u)) { u[key] = defaults[key]; changed = true; } });
+                    if (!('name' in u)) { u.name = ((u.firstNames||'') + ' ' + (u.apellidoP||'') + ' ' + (u.apellidoM||'')).trim(); changed = true; }
+                    users[i] = u;
+                }
+                if (changed) localStorage.setItem(k, JSON.stringify(users));
+            } catch (e) { /* ignore malformed data */ }
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // helper to safely get elements
+            const $ = id => document.getElementById(id);
+
+            // navigation
+            const navLinks = document.querySelectorAll('.admin-nav a') || [];
+            const sections = document.querySelectorAll('.admin-section') || [];
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(sec => sec.classList.remove('active'));
+                    const target = link.dataset.section;
+                    if (target) {
+                        const sec = document.getElementById(target + '-section');
+                        if (sec) sec.classList.add('active');
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // World cup matches
+            const addMatchForm = $('add-match-form');
+            const matchListContainer = $('match-list-container');
+            const team1NameInput = $('team1-name');
+            const team2NameInput = $('team2-name');
+            const matchStageSelect = $('match-stage');
+
+            const renderWorldCupMatches = () => {
+                const savedMatches = JSON.parse(localStorage.getItem('worldCupMatches') || '[]');
+                if (!matchListContainer) return;
+                matchListContainer.innerHTML = '';
+                savedMatches.forEach((m, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'admin-card elim-match';
+                    div.innerHTML = `<h4 class="card-title">${m.stage}</h4><span class="elim-team-name">${m.team1Name}</span> <span class="elim-team-name">${m.team2Name}</span><div class="match-actions">${m.completed?'<span class="match-completed-status">Completado</span>':'<button class="complete-btn" data-index="'+idx+'">Completado</button>'}<button class="edit-btn remove-match-btn" data-index="${idx}"><i class="fas fa-trash-alt"></i></button></div>`;
+                    matchListContainer.appendChild(div);
+                });
+            };
+
+            if (addMatchForm && matchListContainer) {
+                addMatchForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const t1 = team1NameInput?.value || '';
+                    const t2 = team2NameInput?.value || '';
+                    const stage = matchStageSelect?.value || '';
+                    if (!t1 || !t2) return;
+                    const arr = JSON.parse(localStorage.getItem('worldCupMatches') || '[]');
+                    arr.push({ team1Name: t1, team2Name: t2, stage, completed: false });
+                    localStorage.setItem('worldCupMatches', JSON.stringify(arr));
+                    renderWorldCupMatches();
+                });
+
+                matchListContainer.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.remove-match-btn');
+                    const completeBtn = e.target.closest('.complete-btn');
+                    if (btn) {
+                        const idx = btn.dataset.index;
+                        const arr = JSON.parse(localStorage.getItem('worldCupMatches') || '[]');
+                        arr.splice(idx,1);
+                        localStorage.setItem('worldCupMatches', JSON.stringify(arr));
+                        renderWorldCupMatches();
+                    } else if (completeBtn) {
+                        const idx = completeBtn.dataset.index;
+                        const arr = JSON.parse(localStorage.getItem('worldCupMatches') || '[]');
+                        if (arr[idx]) arr[idx].completed = true;
+                        localStorage.setItem('worldCupMatches', JSON.stringify(arr));
+                        renderWorldCupMatches();
+                    }
+                });
+            }
+
+            renderWorldCupMatches();
+
+            // Quiniela
+            const addMatchBtnQuiniela = $('add-match-btn');
+            const matchesContainerQuiniela = $('quiniela-matches-container');
+            const quinielaForm = $('quiniela-form');
+            const deleteQuinielaBtn = $('delete-quiniela-btn');
+
+            const renderQuinielaMatches = (matches) => {
+                if (!matchesContainerQuiniela) return;
+                matchesContainerQuiniela.innerHTML = '';
+                matches.forEach(m => {
+                    const div = document.createElement('div');
+                    div.className = 'quiniela-match';
+                    div.innerHTML = `<div class="quiniela-match-input-group"><input type="text" class="team1-name" value="${m.team1Name||''}"><span>vs</span><input type="text" class="team2-name" value="${m.team2Name||''}"><input type="number" class="score1" value="${m.score1||''}"><input type="number" class="score2" value="${m.score2||''}"></div><button type="button" class="edit-btn remove-match-btn"><i class="fas fa-trash-alt"></i></button>`;
+                    matchesContainerQuiniela.appendChild(div);
+                    const rm = div.querySelector('.remove-match-btn'); if (rm) rm.addEventListener('click', () => div.remove());
+                });
+            };
+
+            const loadSavedQuiniela = () => {
+                const saved = JSON.parse(localStorage.getItem('quinielaData') || '[]');
+                renderQuinielaMatches(saved);
+            };
+
+            if (addMatchBtnQuiniela) addMatchBtnQuiniela.addEventListener('click', () => renderQuinielaMatches([...JSON.parse(localStorage.getItem('quinielaData')||'[]'), {}]));
+            if (quinielaForm) quinielaForm.addEventListener('submit', (e) => { e.preventDefault(); const matches = []; document.querySelectorAll('.quiniela-match').forEach(div=>{ const t1=div.querySelector('.team1-name').value; const t2=div.querySelector('.team2-name').value; const s1=div.querySelector('.score1').value; const s2=div.querySelector('.score2').value; matches.push({team1Name:t1,team2Name:t2,score1:s1,score2:s2}); }); localStorage.setItem('quinielaData', JSON.stringify(matches)); loadSavedQuiniela(); });
+            if (deleteQuinielaBtn) deleteQuinielaBtn.addEventListener('click', ()=>{ if(confirm('¿Eliminar quiniela?')){ localStorage.removeItem('quinielaData'); loadSavedQuiniela(); }});
+            loadSavedQuiniela();
+
+            // Usuarios management
+            const getUsersKey = () => 'app_users_v1';
+
+            // Normalize existing users to ensure all have expected fields
+            const normalizeUsers = () => {
+                try {
+                    const k = getUsersKey();
+                    const users = JSON.parse(localStorage.getItem(k) || '[]');
+                    let changed = false;
+                    const defaults = { firstNames: '', apellidoP: '', apellidoM: '', password: '', role: 'user', fechaNacimiento: '', paisNacimiento: '', nacionalidad: '', genero: '', photo: null };
+                    for (let i = 0; i < users.length; i++) {
+                        const u = users[i] || {};
+                        Object.keys(defaults).forEach(key => {
+                            if (!(key in u)) { u[key] = defaults[key]; changed = true; }
+                        });
+                        // ensure name/email exist
+                        if (!('name' in u)) { u.name = (u.firstNames || '') + ' ' + (u.apellidoP || '') + ' ' + (u.apellidoM || ''); changed = true; }
+                        users[i] = u;
+                    }
+                    if (changed) localStorage.setItem(k, JSON.stringify(users));
+                } catch (e) { /* ignore malformed data */ }
+            };
+            const addUserForm = $('add-user-form');
+            const userIdInput = $('user-id');
+            const userNameInput = $('user-name');
+            const userEmailInput = $('user-email');
+            const userRoleSelect = $('user-role');
+            const userTableBody = $('user-table-body');
+            const userSearchInput = $('user-search');
+
+            const renderUsers = (filter='') => {
+                const users = JSON.parse(localStorage.getItem(getUsersKey()) || '[]');
+                if (!userTableBody) return;
+                const q = filter.trim().toLowerCase();
+                userTableBody.innerHTML = '';
+                users.forEach((u,idx) => {
+                    if (q) {
+                        const match = (u.name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q) || (u.role || '').toLowerCase().includes(q);
+                        if (!match) return;
+                    }
+                    const tr = document.createElement('tr');
+                    const photoCell = `<td>${u.photo ? `<img src="${u.photo}" alt="foto" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">` : '<div style="width:48px;height:48px;border-radius:50%;background:#444;display:inline-block;"></div>'}</td>`;
+                    const fecha = u.fechaNacimiento ? u.fechaNacimiento : '';
+                    const pais = u.paisNacimiento ? u.paisNacimiento : '';
+                    const nac = u.nacionalidad ? u.nacionalidad : '';
+                    const genero = u.genero ? u.genero : '';
+                    tr.innerHTML = `${photoCell}<td>${u.name || ''}</td><td>${u.email || ''}</td><td>${fecha}</td><td>${pais}</td><td>${nac}</td><td>${genero}</td><td>${u.role || ''}</td><td><button class="edit-btn edit-user-btn" data-idx="${idx}"><i class="fas fa-edit"></i></button> <button class="delete-btn delete-user-btn" data-idx="${idx}"><i class="fas fa-trash-alt"></i></button></td>`;
+                    userTableBody.appendChild(tr);
+                });
+            };
+
+            window.addEventListener('storage', (e)=>{ if(e.key===getUsersKey()||e.key==='users_updated') renderUsers(); });
+            try{ if(typeof BroadcastChannel!=='undefined'){ const bc=new BroadcastChannel('users_channel'); bc.addEventListener('message', ev=>{ if(ev.data&&ev.data.type==='users_updated') renderUsers(); }); } }catch(e){}
+
+            if (addUserForm) addUserForm.addEventListener('submit', (e)=>{
+                e.preventDefault();
+                const id = userIdInput?.value;
+                const name = userNameInput?.value?.trim()||'';
+                const email = userEmailInput?.value?.trim()||'';
+                const role = userRoleSelect?.value||'user';
+                if(!name||!email) return alert('Nombre y email son obligatorios');
+                const users = JSON.parse(localStorage.getItem(getUsersKey())||'[]');
+                const emailExists = users.some((u,i)=>u.email.toLowerCase()===email.toLowerCase() && String(i)!==String(id));
+                if(emailExists) return alert('El email ya está registrado');
+                if (id) {
+                    // Merge with existing user object to avoid dropping other fields
+                    const existing = users[+id] || {};
+                    users[+id] = { ...existing, name, email, role };
+                } else {
+                    // When adding from Admin, create placeholders for full user shape
+                    users.push({
+                        name,
+                        firstNames: '',
+                        apellidoP: '',
+                        apellidoM: '',
+                        email,
+                        password: '',
+                        role,
+                        fechaNacimiento: '',
+                        paisNacimiento: '',
+                        nacionalidad: '',
+                        genero: '',
+                        photo: null
+                    });
+                }
+                localStorage.setItem(getUsersKey(), JSON.stringify(users));
+                try{ localStorage.setItem('users_updated', Date.now().toString()); }catch(e){}
+                try{ if(typeof BroadcastChannel!=='undefined'){ const bc=new BroadcastChannel('users_channel'); bc.postMessage({type:'users_updated'}); bc.close(); } }catch(e){}
+                userIdInput && (userIdInput.value='');
+                addUserForm.reset();
+                renderUsers();
+            });
+            if (userSearchInput) userSearchInput.addEventListener('input', e=> renderUsers(e.target.value));
+            if (userTableBody) userTableBody.addEventListener('click', e=>{ const editBtn=e.target.closest('.edit-user-btn'); const delBtn=e.target.closest('.delete-user-btn'); if(editBtn){ const idx=+editBtn.dataset.idx; const users=JSON.parse(localStorage.getItem(getUsersKey())||'[]'); const u=users[idx]; if(u){ userIdInput.value=idx; userNameInput.value=u.name; userEmailInput.value=u.email; userRoleSelect.value=u.role; userNameInput.focus(); } } else if(delBtn){ const idx=+delBtn.dataset.idx; if(!confirm('Eliminar usuario?')) return; const users=JSON.parse(localStorage.getItem(getUsersKey())||'[]'); users.splice(idx,1); localStorage.setItem(getUsersKey(), JSON.stringify(users)); renderUsers(); }});
+            // normalize existing users to ensure table columns render correctly
+            normalizeUsers();
+            renderUsers();
+
+            // Insignias
+            const addInsigniaForm = $('add-insignia-form');
+            const insigniasListContainer = $('insignias-list-container');
+            const insigniaNameInput = $('insignia-name');
+            const insigniaDescInput = $('insignia-desc');
+            const insigniaImgInput = $('insignia-img');
+
+            const renderInsignias = ()=>{ const saved=JSON.parse(localStorage.getItem('insigniasData')||'[]'); if(!insigniasListContainer) return; insigniasListContainer.innerHTML=''; saved.forEach((ins,idx)=>{ const d=document.createElement('div'); d.className='insignia-item'; d.innerHTML=`<img src="${ins.imgUrl}" alt="${ins.name}"><div class="insignia-info"><h4>${ins.name}</h4><p>${ins.desc}</p></div><button class="remove-insignia-btn" data-index="${idx}"><i class="fas fa-trash-alt"></i></button>`; insigniasListContainer.appendChild(d); }); };
+            if(addInsigniaForm) addInsigniaForm.addEventListener('submit', e=>{ e.preventDefault(); const name=insigniaNameInput?.value||''; const desc=insigniaDescInput?.value||''; const imgUrl=insigniaImgInput?.value||''; const arr=JSON.parse(localStorage.getItem('insigniasData')||'[]'); arr.push({name,desc,imgUrl}); localStorage.setItem('insigniasData', JSON.stringify(arr)); insigniaNameInput.value=''; insigniaDescInput.value=''; insigniaImgInput.value=''; renderInsignias(); });
+            if(insigniasListContainer) insigniasListContainer.addEventListener('click', e=>{ const btn=e.target.closest('.remove-insignia-btn'); if(!btn) return; const idx=btn.dataset.index; if(confirm('¿Eliminar insignia?')){ const arr=JSON.parse(localStorage.getItem('insigniasData')||'[]'); arr.splice(idx,1); localStorage.setItem('insigniasData', JSON.stringify(arr)); renderInsignias(); }});
+            renderInsignias();
+        });
+    </script>
+        <script src="../JS/admin-publicaciones.js"></script>
+        <script src="../JS/admin-publicaciones-aceptar.js"></script>
+            <script>
+            // Gestión de categorías de foros por foro
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('add-categoria-form');
+                const input = document.getElementById('categoria-nombre');
+                const list = document.getElementById('categorias-list');
+                const foroSelect = document.getElementById('foro-categorias-select');
+
+                function getKey() {
+                    return 'categoriasForo_' + foroSelect.value;
+                }
+
+                function renderCategorias() {
+                    list.innerHTML = '';
+                    let cats = [];
+                    try { cats = JSON.parse(localStorage.getItem(getKey())) || []; } catch(e) { cats = []; }
+                    cats.forEach((cat, idx) => {
+                        const li = document.createElement('li');
+                        li.style.display = 'flex';
+                        li.style.alignItems = 'center';
+                        li.style.justifyContent = 'space-between';
+                        li.style.padding = '6px 0';
+                        li.innerHTML = `<span>${cat}</span> <button data-idx="${idx}" class="del-cat-btn" style="background:#b00;color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;">Eliminar</button>`;
+                        list.appendChild(li);
+                    });
+                }
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    let cats = [];
+                    try { cats = JSON.parse(localStorage.getItem(getKey())) || []; } catch(e) { cats = []; }
+                    const val = input.value.trim();
+                    if (!val) return;
+                    if (cats.includes(val)) return alert('La categoría ya existe');
+                    cats.push(val);
+                    localStorage.setItem(getKey(), JSON.stringify(cats));
+                    input.value = '';
+                    renderCategorias();
+                    // Notificar a los foros para actualizar select
+                    window.dispatchEvent(new StorageEvent('storage', { key: getKey() }));
+                });
+
+                list.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('del-cat-btn')) {
+                        const idx = +e.target.getAttribute('data-idx');
+                        let cats = [];
+                        try { cats = JSON.parse(localStorage.getItem(getKey())) || []; } catch(e) { cats = []; }
+                        cats.splice(idx, 1);
+                        localStorage.setItem(getKey(), JSON.stringify(cats));
+                        renderCategorias();
+                        window.dispatchEvent(new StorageEvent('storage', { key: getKey() }));
+                    }
+                });
+
+                foroSelect.addEventListener('change', renderCategorias);
+                renderCategorias();
+            });
+            </script>
+</body>
+</html>

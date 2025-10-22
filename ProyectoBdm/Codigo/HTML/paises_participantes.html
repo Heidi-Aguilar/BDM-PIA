@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foro Mundial 2026</title>
+  <link rel="stylesheet" href="../CSS/foro.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-left">
+      <a href="principal.html"><img src="../RECURSOS/logo.png" alt="Logo de la empresa" class="logo-img" style="height:40px;"></a>
+    </div>
+    <div class="nav-center">
+      <a href="principalforos.html">Foro</a>
+      <input type="text" class="busqueda" placeholder="Buscar...">
+    </div>
+    <div class="nav-right">
+       <a href="perfil.html">Perfil</a>
+    </div>
+  </nav>
+
+  <!-- LOGO PRINCIPAL -->
+  <section class="container logo-principal">
+    <img src="../RECURSOS/logo.png" alt="Logo Mundial 2026" class="logo-main">
+    <h2>¡Bienvenido al Foro del Mundial 2026!</h2>
+    <p>Comparte tus opiniones, fotos y emociones sobre los partidos, jugadores y momentos históricos del Mundial 2026.</p>
+  </section>
+
+  <!-- PUBLICACIONES INVENTADAS -->
+
+  <section class="container">
+  <!-- NUEVO COMENTARIO -->
+  <div class="comentario-box">
+    <textarea placeholder="Escribe un nuevo comentario..."></textarea>
+    <div class="comentario-actions">
+      <label class="icono-img">📷
+        <input type="file" accept="image/*">
+      </label>
+      <select class="select-categoria">
+        <option value="" disabled selected>Selecciona categoría</option>
+        <option value="Partidos">Partidos</option>
+        <option value="Jugadores">Jugadores</option>
+        <option value="Países">Países</option>
+        <option value="Momentos Históricos">Momentos Históricos</option>
+        <option value="Entrevistas">Entrevistas</option>
+      </select>
+      <button class="btn-publicar">Publicar</button>
+    </div>
+  </div>
+  <h2>Publicaciones recientes</h2>
+
+  <div class="publicacion">
+    <p><strong>Ana:</strong> Brasil llega nuevamente como uno de los favoritos históricos, con una selección repleta de talento y experiencia en torneos internacionales.</p>
+    <img src="../RECURSOS/7.jpg" alt="Partido México">
+    <div class="publicacion-meta">Publicado el 12/09/2025 18:45 </div>
+    <div class="publicacion-actions">
+      <button class="btn-responder">Responder</button>
+    </div>
+  </div>
+
+  <div class="publicacion">
+    <p><strong>Carlos:</strong> Alemania buscará hacerse presente con una combinación de jóvenes promesas y jugadores experimentados, intentando recuperar la gloria de ediciones pasadas.</p>
+    <img src="../RECURSOS/8.jpg" alt="Messi">
+    <div class="publicacion-meta">Publicado el 13/09/2025 20:10 </div>
+    <div class="publicacion-actions">
+      <button class="btn-responder">Responder</button>
+    </div>
+  </div>
+
+  <div class="publicacion">
+    <p><strong>Laura:</strong> Argentina participará con su icónica tradición futbolística, apostando por figuras emergentes y consolidadas que lleven a la Albiceleste lejos en el torneo.</p>
+    <img src="../RECURSOS/9.jpg" alt="Canadá">
+    <div class="publicacion-meta">Publicado el 14/09/2025 16:30 </div>
+    <div class="publicacion-actions">
+      <button class="btn-responder">Responder</button>
+    </div>
+  </div>
+
+</section>
+
+<script src="../JS/foro-publicar.js"></script>
+<script>
+if (!localStorage.getItem('sesionIniciada')) {
+  window.location.href = 'iniciar sesion.html';
+}
+</script>
+</body>
+</html>
